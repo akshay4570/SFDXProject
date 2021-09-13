@@ -25,9 +25,9 @@ node {
     }
     
     stage('static code analysis') {
-	step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', checkstyle: '**/target/checkstyle-result.xml'])
-
-    	step([$class: 'hudson.plugins.pmd.PmdPublisher', checkstyle: '**/target/pmd.xml'])
+	step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml'])
+	step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml'])
+	step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml'])
     }
     /*withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Deploye Code') {
