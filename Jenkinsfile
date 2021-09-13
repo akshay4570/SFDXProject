@@ -19,6 +19,14 @@ node {
     
     def toolbelt = tool 'toolbelt'
 
+   // Adding code for static code analysis(pmd)
+    stage('static code analysis') {
+        steps {
+	    bat "mvn pmd:pmd"
+	    bat "mvn checkstyle:checkstyle"
+	    bat "mvn findbugs:findbugs"
+	}
+    }	
     stage('checkout source') {
         // when running in multi-branch job, one must issue this command
         checkout scm
