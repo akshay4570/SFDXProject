@@ -1,6 +1,6 @@
 #!groovy
 import groovy.json.JsonSlurperClassic
-import hudson.*
+
 node {
 
     def BUILD_NUMBER=env.BUILD_NUMBER
@@ -26,9 +26,8 @@ node {
     }
     
     stage('static code analysis') {
-	step([$class: 'hudson.plugins.checkstyle.CheckStylePublisher', pattern: '**/target/checkstyle-result.xml', unstableTotalAll:'0'])
-	step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml', unstableTotalAll:'0'])
-	step([$class: 'FindBugsPublisher', pattern: '**/findbugsXml.xml', unstableTotalAll:'0'])
+	
+	rc = bat returnStatus: true, script: pmd -dir . -format csv -R rulesets/apex/quickstart.xml
     }
     /*withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Deploye Code') {
