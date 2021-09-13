@@ -18,23 +18,12 @@ node {
     println CONNECTED_APP_CONSUMER_KEY
     
     def toolbelt = tool 'toolbelt'
-
-    stages{
-	  // Adding code for static code analysis(pmd)
-	    stage('static code analysis') {
-		steps {
-		    bat "mvn pmd:pmd"
-		    bat "mvn checkstyle:checkstyle"
-		    bat "mvn findbugs:findbugs"
-		}
-	    }	
-	    stage('checkout source') {
-		// when running in multi-branch job, one must issue this command
-		checkout scm
-	    }
-    }
    
-
+    stage('checkout source') {
+	// when running in multi-branch job, one must issue this command
+	checkout scm
+    }
+	
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Deploye Code') {
             if (isUnix()) {
