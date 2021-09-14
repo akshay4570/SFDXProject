@@ -24,12 +24,8 @@ node {
 	// when running in multi-branch job, one must issue this command
 	checkout scm
     }
-    
-    stage('static code analysis') {
-	
-	rc = bat returnStatus: true, script: pmd -dir . -format csv -R rulesets/apex/quickstart.xml
-    }
-    /*withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
+
+    withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Deploye Code') {
             if (isUnix()) {
                 rc = sh returnStatus: true, script: "${toolbelt} force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
@@ -51,5 +47,5 @@ node {
             println('Hello from a Job DSL script!')
             println(rmsg)
         }
-    }*/
+    }
 }
